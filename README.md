@@ -57,10 +57,10 @@ In a background process the script also checks for events that are starting in 3
 
 ## Credits
 
-Events widget originally coded by [Syntax](https://github.com/JustinHowe).
-UI designed by [Yogensia](https://github.com/Yogensia). Updates made by [qlimax5000](https://github.com/qlimax5000) & [Johninatoooor](https://www.reddit.com/user/Johninatoooor).
-
-Further updates, optimization, and port to Chrome Extension by [Yogensia](https://github.com/Yogensia).
+- Events widget originally coded by [Syntax](https://github.com/JustinHowe).
+- UI designed by [Yogensia](https://github.com/Yogensia).
+- Updates made by [qlimax5000](https://github.com/qlimax5000) & [Johninatoooor](https://www.reddit.com/user/Johninatoooor).
+- Further updates, optimization, and port to Chrome Extension by [Yogensia](https://github.com/Yogensia).
 
 ## License
 

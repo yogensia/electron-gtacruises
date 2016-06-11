@@ -71,6 +71,30 @@ $(function(){
 		}
 	});
 
+	// titlebar about icon
+	var titlebarAbout = document.getElementById('titlebar-about');
+	titlebarAbout.addEventListener('click', function() {
+		$('#about-screen').fadeIn();
+	});
+
+	// about screen close icon
+	var titlebarAboutClose = document.getElementById('about-close');
+	titlebarAboutClose.addEventListener('click', function() {
+		$('#about-screen').fadeOut();
+	});
+
+	// options link in about screen
+	var editOptionsLink = document.getElementById('edit-options-link');
+	editOptionsLink.addEventListener('click', function() {
+		if (chrome.runtime.openOptionsPage) {
+			// Chrome 42+ options page
+			chrome.runtime.openOptionsPage();
+		} else {
+			// fallback
+			window.open(chrome.runtime.getURL('options.html'));
+		}
+	});
+
 	// all links in popup should open in new tabs
 	$(document).ready(function(){
 		$('body').on('click', 'a', function(){

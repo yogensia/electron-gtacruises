@@ -636,19 +636,22 @@ function JSONSuccess(data) {
 
 		refreshTimer();
 
-		// after loading replace spinner with events
-		$("#spin").hide();
-		$("#wrapper").fadeIn();
+		// popup only
+		if (typeof background == 'undefined') {
+			// after loading replace spinner with events
+			$("#spin").hide();
+			$("#wrapper").fadeIn();
 
-		// load custom scrollbar
-		$("#wrapper").mCustomScrollbar({
-			theme:"minimal-dark"
-		});
+			// load custom scrollbar
+			$("#wrapper").mCustomScrollbar({
+				theme:"minimal-dark"
+			});
+		}
 
 		// refresh countdown timers every minute
 		setInterval(refreshTimer, 60000);
 
-		// check if we are running in the background or in the extension popup
+		// background only
 		if (typeof background != 'undefined') {
 			// reload background process every 15 minutes (900.000ms) to catch new events
 			setTimeout(function(){ chrome.runtime.reload(); }, 900000);

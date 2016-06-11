@@ -5,6 +5,7 @@
 
 body {
 	-webkit-user-select: none;
+	background: url(../img/background-body.png);
 	cursor: default;
 	display: flex;
 	flex-flow: row wrap;
@@ -12,6 +13,111 @@ body {
 	min-height: 472px;
 }
 
+dt, dd {
+	margin: 0;
+}
+
+/* About screen */
+#about-screen {
+	position:absolute;
+	background: url(../img/background-about.png) no-repeat;
+	width: 100%;
+	height: 100%;
+	z-index: 10;
+	top: 0;
+}
+
+#about-screen h1,
+#about-screen h2 {
+	color: #fff;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 1.5em;
+	font-style: italic;
+	margin: 15px 18px;
+	text-shadow: 0 1px 0 rgba(0,0,0,0.35);
+}
+
+#about-screen h2 {
+	font-size: 1.833334em;
+}
+
+#about-titlebar {
+	position:absolute;
+	top:0;
+	width:100%;
+	background: rgba(255,255,255,0.2);
+}
+
+#about-titlebar span {
+	background: url(../img/titlebar-actions.png) -220px -10px;
+	cursor: pointer;
+	display: block;
+	float: left;
+	height: 20px;
+	margin-left: 10px;
+	opacity: 0.7;
+	transition: opacity 150ms;
+	width: 20px;
+	text-indent: -9999px;
+	position: absolute;
+	top: 18px;
+	right: 18px;
+}
+
+#about-titlebar span:hover {
+	background: url(../img/titlebar-actions.png) -220px -40px;
+}
+
+#about-wrap {
+	padding-top: 70px;
+}
+
+#about-section {
+	text-align: center;
+	color: #fff;
+	text-shadow: 0 1px 0 rgba(0,0,0,0.35);
+	font-family: 'Open Sans', sans-serif;
+	margin-bottom: 30px;
+}
+
+#about-section ul,
+#about-section li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	cursor: pointer;
+}
+
+#about-section li {
+	text-transform: uppercase;
+	font-size: 11px;
+	padding: 1px 7px;
+	display: inline-block;
+}
+
+#about-section li:hover {
+	background: #fff;
+	border-radius: 10px;
+	box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+	color: #444;
+	text-shadow: none;
+}
+
+#about-section a {
+	color: #fff;
+	font-weight: bold;
+	font-size: 1.5em;
+	text-shadow: 0 1px 0 rgba(0,0,0,0.35);
+}
+#about-section a:hover {
+	color: #f6ac79;
+}
+
+#about-section dd {
+	margin-bottom: 10px;
+}
+
+/* Main titlebar */
 #titlebar {
 	background: #f5f5f5  url(../img/titlebar-background.png) no-repeat;
 	box-shadow: 0 1px 0 rgba(0,0,0,0.15);
@@ -97,6 +203,7 @@ h3 a {
 	background-position: -160px -40px;
 }
 
+/* viewport */
 #viewport {
 	bottom: 0;
 	flex: 1 100%;
@@ -119,6 +226,7 @@ a {
 	text-decoration: none;
 }
 
+/* Events */
 #eventsWidget {
 	margin: 0 auto;
 	width: 298px;
@@ -147,7 +255,7 @@ blockquote.events-module p {
 
 /* Event block common styles */
 .event-block {
-	background: #1977b8 url(../img/background.jpg);
+	background: #1977b8 url(../img/background-events.jpg);
 	background-position: -286px center;
 	border-radius: 3px;
 	color: #fff;
