@@ -1,0 +1,27 @@
+{
+  "manifest_version": 2,
+  "name": "r/GTAV_Cruises Extension",
+  "description": "Adds the Events Widget to Chrome's toolbar and shows notifications for events 30 & 15 minutes before they start.",
+  "version": "1.0",
+  "browser_action": {
+    "default_icon": "img/logo.png",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "persistent": true,
+    "page": "background.html"
+  },
+  "permissions": [
+    "gcm",
+    "storage",
+    "notifications",
+    "identity"
+  ],
+  "icons": {
+    "128": "img/logo.png"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "chrome_style": true
+  }
+}

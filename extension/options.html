@@ -1,0 +1,49 @@
+<!doctype html>
+	<html>
+		<head>
+		<title>r/GTAV_Cruises Extension Options</title>
+		<style>
+			body {
+				margin: 0;
+				padding: 0;
+				-webkit-user-select: none;
+			}
+			label {
+				cursor: pointer;
+			}
+			#wrapper {
+				padding: 0 10px 10px;
+				overflow: hidden;
+			}
+			#save {
+				float: left;
+			}
+			#status {
+				color: green;
+				display: none;
+				float: left;
+				padding: 4px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrapper">
+			<h3>Notifications</h3>
+			<label>
+				<input type="checkbox" id="notificationsDisableAll"> Disable ALL notifications
+			</label><br />
+			<label>
+				<input type="checkbox" id="notificationsDisable30min"> Disable 30 minute notifications
+			</label><br />
+			<label>
+				<input type="checkbox" id="notificationsDisable15min"> Disable 15 minute notifications
+			</label><br /><br />
+
+			<button id="save">Save</button>
+			<div id="status">Options Saved</div>
+		</div>
+
+		<script src="js/jquery.min.js"></script>
+		<script src="js/options.js"></script>
+	</body>
+</html>

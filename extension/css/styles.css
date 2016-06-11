@@ -1,0 +1,245 @@
+/* General structure and typography */
+*:active {
+	outline: none;
+}
+
+body {
+	-webkit-user-select: none;
+	cursor: default;
+	display: flex;
+	flex-flow: row wrap;
+	width: 318px;
+	min-height: 472px;
+}
+
+#titlebar {
+	background: #f5f5f5  url(../img/titlebar-background.png) no-repeat;
+	box-shadow: 0 1px 0 rgba(0,0,0,0.15);
+	display: block;
+	flex: 1 100%;
+	height: 52px;
+	padding: 1px;
+}
+
+#titlebar-inner {
+	width: 100%;
+	height: 56px;
+}
+
+#titlebar h3 {
+	float: left;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 1.5em;
+	font-style: italic;
+	margin: 15px 18px;
+	text-shadow: 0 1px 1px rgba(255,255,255,0.55);
+}
+
+h3 a {
+	color: #444;
+}
+
+#titlebar ul {
+	float: right;
+	margin: 0;
+	margin-right: 16px;
+	padding: 18px 0;
+}
+
+#titlebar li {
+	background: url(../img/titlebar-actions.png);
+	cursor: pointer;
+	display: block;
+	float: left;
+	height: 20px;
+	margin-left: 10px;
+	opacity: 0.7;
+	transition: opacity 150ms;
+	width: 20px;
+}
+
+#titlebar li:hover {
+	opacity: 1;
+}
+
+#titlebar #titlebar-reload {
+	background-position: -40px -10px;
+}
+#titlebar #titlebar-reload:hover {
+	background-position: -40px -40px;
+}
+
+#titlebar #titlebar-add-event {
+	background-position: -130px -10px;
+}
+#titlebar #titlebar-add-event:hover {
+	background-position: -130px -40px;
+}
+
+#titlebar #titlebar-notifications {
+	background-position: -10px -10px;
+}
+#titlebar #titlebar-notifications.off {
+	background-position: -10px -40px;
+}
+
+#titlebar #titlebar-about {
+	background-position: -100px -10px;
+}
+#titlebar #titlebar-about:hover {
+	background-position: -100px -40px;
+}
+
+#titlebar #titlebar-menu {
+	background-position: -160px -10px;
+}
+#titlebar #titlebar-menu:hover {
+	background-position: -160px -40px;
+}
+
+#viewport {
+	bottom: 0;
+	flex: 1 100%;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 54px;
+}
+
+#wrapper {
+    height: 100%;
+    outline: none;
+}
+
+.mCSB_outside+.mCS-minimal-dark.mCSB_scrollTools_vertical, .mCSB_outside+.mCS-minimal.mCSB_scrollTools_vertical {
+	margin: 20px 0 16px !important;
+}
+
+a {
+	text-decoration: none;
+}
+
+#eventsWidget {
+	margin: 0 auto;
+	width: 298px;
+}
+
+blockquote.events-module {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 12px;
+	margin: 0;
+	padding: 20px 6px 16px;
+	text-align: center;
+}
+
+blockquote.events-module p {
+	margin: 6px;
+}
+
+#eventsWrapper {
+	display: none;
+}
+
+#eventsContent {
+	padding: 0;
+}
+
+
+/* Event block common styles */
+.event-block {
+	background: #1977b8 url(../img/background.jpg);
+	background-position: -286px center;
+	border-radius: 3px;
+	color: #fff;
+	display: block;
+	margin-bottom: 6px;
+	overflow: hidden;
+	padding: 6px;
+	position: relative;
+	text-shadow: 0 1px 0 rgba(0,0,0,0.35);
+}
+.event-block:last-child {
+	margin-bottom: 0;
+}
+.event-block:hover {
+	background-color: #1d8fd2;
+	background-position: -1144px center;
+}
+
+.event-block.state-warning {
+	background-color: #9b403c;
+	background-position: 0 center;
+}
+.event-block.state-warning:hover {
+	background-color: #ab4744;
+	background-position: -858px center;
+}
+
+.event-block.state-progress {
+	background-color: #548c3f;
+	background-position: -572px center;
+}
+.event-block.state-progress:hover {
+	background-color: #68a448;
+	background-position: -1430px center;
+}
+
+.event-block p {
+	margin: 5px;
+}
+
+.event-block a {
+	color: #fff!important;
+	font-size: 16px;
+	font-style: italic;
+	font-weight: bold;
+	line-height: 20px;
+	text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+}
+
+.event-block.state-warning a {
+	font-size: 14px;
+}
+
+
+/* Timer */
+.event-timer {
+	font-size: 11px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.event-block.state-progress .event-timer {
+	margin: 7px 0;
+}
+
+.event-timer strong {
+	background: #fff;
+	border-radius: 10px;
+	box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+	color: #444;
+	padding: 1px 5px;
+	text-shadow: none;
+}
+
+.event-block.state-progress .event-timer strong {
+	color: #c81414;
+	font-size: 14px;
+	padding: 0 7px;
+}
+
+
+/* Other */
+.event-block .block-link {
+	display: block;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+}
+
+.events-error {
+	color: #d72e2e;
+	font-weight: bold;
+}
