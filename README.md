@@ -62,6 +62,12 @@ In a background process the script also checks for events that are starting in 3
 - Updates made by [qlimax5000](https://github.com/qlimax5000) & [Johninatoooor](https://www.reddit.com/user/Johninatoooor).
 - Further updates, optimization, and port to Chrome Extension by [Yogensia](https://github.com/Yogensia).
 
+## Changelog
+
+- **v1.0:** Initial Extension release.
+- **v1.0.1:** Changes to Credits screen and minor fixes.
+- **v1.0.2:** Minor fixes to titlebar and image optimization.
+
 ## License
 
 ### The MIT License (MIT)

@@ -675,7 +675,7 @@ $(window).load(function(){
 	*/
 
 	// start editing some html
-	var titlebar = '<h3><a id="eventsHeader" href="#">Loading...</a></h3>';
+	var titlebar = '<h3><a id="eventsHeader" href="https://www.reddit.com/r/GTAV_Cruises/search?q=flair%3A%22events%22&restrict_sr=on&sort=new&t=all">Loading...</a></h3>';
 	$("#titlebar").prepend(titlebar);
 
 	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module" style="text-align:center"><div id="eventsContent"></div></blockquote></div>';
