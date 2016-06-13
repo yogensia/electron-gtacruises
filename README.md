@@ -23,7 +23,7 @@ The code is mainly JavaScript. If you know JS you can fork or download this repo
 - **Toolbar Icon:** The events widget is now accessible from Chrome's toolbar. The icon shows the number of found cruises.
 - **Notifications:** As long as Chrome is open, you'll get toast notifications in your desktop when a cruise is about to start. These notifications can be disabled.
 - **Heavily Optimized:** Instead of using a hidden iframe, events are now fetched via JSON. This is faster because it downloads less irrelevant data and uses only one web request.
-- **Cache:** Events are cached for 5 minutes, which reduces requests to reddit's servers and improves performance even further, especially if you open the menu seveal times in a couple of minutes.
+- **Cache:** Events are cached for 5 minutes, which reduces requests to reddit's servers and improves performance even further, especially if you open the menu several times in a couple of minutes.
 
 
 ## What happens under the hood
@@ -67,6 +67,7 @@ In a background process the script also checks for events that are starting in 3
 - **v1.0:** Initial Extension release.
 - **v1.0.1:** Changes to Credits screen and minor fixes.
 - **v1.0.2:** Minor fixes to titlebar and image optimization.
+- **v1.0.3:** Tweaked message when no cruises are found.
 
 ## License
 

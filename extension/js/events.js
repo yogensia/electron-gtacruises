@@ -208,7 +208,7 @@ function checkFinished() {
 		noEvents = true;
 		$("#eventsHeader").text("0 Cruises Found");
 		$("#topBodyText").text("");
-		$("#eventsContent").replaceWith('<div id="eventsContent"><p id="no-cruises"><span>No Cruises Found.</span><br /><br /><span>Won\'t you liven things up a bit and create one?</span></strong></p></div>');
+		$("#eventsContent").replaceWith('<div id="eventsContent"><div id="no-cruises"><h3>No Cruises Found!</h3><p><a href="https://www.reddit.com/r/GTAV_Cruises/submit?custom_button&create_event&selftext=true&title=%5BRegion%5D%20%7C%20%5BDate%5D%20%7C%20%5BTitle%5D%20%7C%20%5BGMT%5D%20%7C%20%5BTime%5D&text=**Title**%3A%20%5BEvent%20Name%5D%0A%0A**Date**%3A%20%5BDate%2C%20Time%20and%20Timezone%5D%0A%0A**Region**%3A%20%5BUS%2C%20EU%2C%20Asia%5D%0A%0A**Duration**%3A%20%5BExpected%20Duration%5D%0A%0A**Host**%3A%20%5BAlias%20%2B%20RGSC%20ID%5D%0A%0A**Vehicle%20type**%3A%20%5BFree%2C%20Off-road%2C%20Muscle%2C%20etc.%5D%0A%0A**Players**%3A%20%5BMax%20Players%5D%0A%0A**Activities**%3A%20%5BDrags%2C%20Cruise%2C%20Drifting%2C%20etc.%5D%0A%0A**Special%20requirements**%3A%20%5BAny%20Special%20Requirements%5D%0A%0A**Custom%20rules**%3A%20%5BNo%20%2F%20Yes%5D%0A%0A**Notes**%3A%20%5BAny%20Other%20Information%5D">Won\'t you liven things up a bit and create one?</a></p></div></div>');
 	}
 
 	if ((newHeaderCounter == 1) && !noEvents) {
@@ -302,9 +302,11 @@ function JSONSuccess(data) {
 	console.log("Bad Events Found: " + badEventsCounter);
 
 	if (goodEvents.length < 1) {
+		chrome.browserAction.setBadgeText({text: '0'});
+		chrome.browserAction.setTitle({title: "r/GTAVCruises: 0 Cruises Found"})
 		$("#eventsHeader").text("0 Cruises Found");
 		$("#topBodyText").text("");
-		$("#eventsContent").replaceWith('<div id="eventsContent"><p id="no-cruises"><span>No Cruises Found.</span><br /><br /><span>Won\'t you liven things up a bit and create one?</span></strong></p></div>');
+		$("#eventsContent").replaceWith('<div id="eventsContent"><div id="no-cruises"><h3>No Cruises Found!</h3><p><a href="https://www.reddit.com/r/GTAV_Cruises/submit?custom_button&create_event&selftext=true&title=%5BRegion%5D%20%7C%20%5BDate%5D%20%7C%20%5BTitle%5D%20%7C%20%5BGMT%5D%20%7C%20%5BTime%5D&text=**Title**%3A%20%5BEvent%20Name%5D%0A%0A**Date**%3A%20%5BDate%2C%20Time%20and%20Timezone%5D%0A%0A**Region**%3A%20%5BUS%2C%20EU%2C%20Asia%5D%0A%0A**Duration**%3A%20%5BExpected%20Duration%5D%0A%0A**Host**%3A%20%5BAlias%20%2B%20RGSC%20ID%5D%0A%0A**Vehicle%20type**%3A%20%5BFree%2C%20Off-road%2C%20Muscle%2C%20etc.%5D%0A%0A**Players**%3A%20%5BMax%20Players%5D%0A%0A**Activities**%3A%20%5BDrags%2C%20Cruise%2C%20Drifting%2C%20etc.%5D%0A%0A**Special%20requirements**%3A%20%5BAny%20Special%20Requirements%5D%0A%0A**Custom%20rules**%3A%20%5BNo%20%2F%20Yes%5D%0A%0A**Notes**%3A%20%5BAny%20Other%20Information%5D">Won\'t you liven things up a bit and create one?</a></p></div></div>');
 	} else {
 		if (goodEvents.length == 1) {
 			$("#eventsHeader").text(goodEvents.length + ' Cruise Found');
@@ -355,8 +357,6 @@ function JSONSuccess(data) {
 						}
 						year = parseInt(year, 10);
 					}
-
-
 
 					var monthCurrentEpoch = Date.now();
 					var monthAheadEpoch = (monthCurrentEpoch + 2678400000)/1000;
@@ -636,18 +636,6 @@ function JSONSuccess(data) {
 
 		refreshTimer();
 
-		// popup only
-		if (typeof background == 'undefined') {
-			// after loading replace spinner with events
-			$("#spin").hide();
-			$("#wrapper").fadeIn();
-
-			// load custom scrollbar
-			$("#wrapper").mCustomScrollbar({
-				theme:"minimal-dark"
-			});
-		}
-
 		// refresh countdown timers every minute
 		setInterval(refreshTimer, 60000);
 
@@ -656,6 +644,18 @@ function JSONSuccess(data) {
 			// reload background process every 15 minutes (900.000ms) to catch new events
 			setTimeout(function(){ chrome.runtime.reload(); }, 900000);
 		}
+	}
+
+	// popup only
+	if (typeof background == 'undefined') {
+		// after loading replace spinner with events
+		$("#spin").hide();
+		$("#wrapper").fadeIn();
+
+		// load custom scrollbar
+		$("#wrapper").mCustomScrollbar({
+			theme:"minimal-dark"
+		});
 	}
 }
 
