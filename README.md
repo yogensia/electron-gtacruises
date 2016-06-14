@@ -68,6 +68,7 @@ In a background process the script also checks for events that are starting in 3
 - **v1.0.1:** Changes to Credits screen and minor fixes.
 - **v1.0.2:** Minor fixes to titlebar and image optimization.
 - **v1.0.3:** Tweaked message when no cruises are found.
+- **v1.0.4:** Possible fix for rare bug causing finished events to appear as undefined in some cases.
 
 ## License
 
