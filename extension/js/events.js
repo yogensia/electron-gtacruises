@@ -113,7 +113,7 @@ function timerUpdate(n) {
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		// MIN
-		if ((d == 0) &&(h == 0) && (m > 0)) {
+		if ((d == 0) && (h == 0) && (m > 0)) {
 			// notifications are handled in the background process
 			if (typeof background != 'undefined') {
 				// 30/15 minute notifications
@@ -129,12 +129,12 @@ function timerUpdate(n) {
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		// DAYS MIN
-		if ((d > 0) &&(h == 0) && (m > 0)) {
+		if ((d > 0) && (h == 0) && (m > 0)) {
 			txt = "Starts in " + d + textDays + m + " Min";
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
 		// DAYS HRS
-		if ((d > 0) &&(h > 0) && (m == 0)) {
+		if ((d > 0) && (h > 0) && (m == 0)) {
 			txt = "Starts in " + d + textDays + h + textHours;
 			$("#event-block-" + n).addClass("state-upcoming");
 		}
@@ -158,7 +158,7 @@ function timerUpdate(n) {
 			inProgress = true;
 		}
 		// FINISHED
-		if ((m < 0) && !inProgress) {
+		if (((m < 0) && !inProgress) || ((h < 0) && !inProgress)) {
 			txt = 'Finished';
 			$("#event-block-" + n).removeClass("state-progress").addClass("state-finished");
 			$("#event-block-" + n).hide();
