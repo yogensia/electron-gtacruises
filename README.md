@@ -69,6 +69,7 @@ In a background process the script also checks for events that are starting in 3
 - **v1.0.2:** Minor fixes to titlebar and image optimization.
 - **v1.0.3:** Tweaked message when no cruises are found.
 - **v1.0.4:** Possible fix for rare bug causing finished events to appear as undefined in some cases.
+- **v1.0.5:** Fix rare bug that prevented new cruises from being detected. Disabled console.log unless in dev mode.
 
 ## License
 
