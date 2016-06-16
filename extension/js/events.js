@@ -36,12 +36,24 @@ var updateCounter = 0;
 var finishedCounter = 0;
 var noEvents = false;
 var options = [];
+var dev = false;
+
+// custom console log function for dev mode only
+if (dev === false) {
+	function CruisesLog() {
+		return false;
+	}
+} else {
+	function CruisesLog(message) {
+		console.log(message);
+	}
+}
 
 // output on console whether we are runing in the background or the popup process
 if (typeof background != 'undefined') {
-	console.log("Script running in background");
+	CruisesLog("Script running in background");
 } else {
-	console.log("Script running in popup");
+	CruisesLog("Script running in popup");
 }
 
 // get extension options
@@ -55,7 +67,7 @@ function refreshOptions() {
 		options['notificationsDisableAll']   = items.notificationsDisableAll;
 		options['notificationsDisable30min'] = items.notificationsDisable30min;
 		options['notificationsDisable15min'] = items.notificationsDisable15min;
-		console.log('Refreshing extension options', options);
+		CruisesLog('Refreshing extension options' + options);
 	});
 }
 refreshOptions();
@@ -119,10 +131,10 @@ function timerUpdate(n) {
 				// 30/15 minute notifications
 				if (m == 30) {
 					eventNotify(title, '30', eventsURL[n], 'This event starts in 30 minutes!\nClick here for more info.', options);
-					console.log('Event "'+title+'" with url "'+eventsURL[n]+'" starting in 30 min, attempting to notify to user...');
+					CruisesLog('Event "'+title+'" with url "'+eventsURL[n]+'" starting in 30 min, attempting to notify to user...');
 				} else if (m == 15) {
 					eventNotify(title, '15', eventsURL[n], 'This event starts in 15 minutes!\nClick here for more info.', options);
-					console.log('Event "'+title+'" with url "'+eventsURL[n]+'" starting in 15 min, attempting to notify to user...');
+					CruisesLog('Event "'+title+'" with url "'+eventsURL[n]+'" starting in 15 min, attempting to notify to user...');
 				}
 			}
 			txt = "Starts in " + m + " Min";
@@ -164,19 +176,19 @@ function timerUpdate(n) {
 			$("#event-block-" + n).hide();
 		}
 		document.getElementById(timerString).innerHTML = "<strong>" + txt + "</strong>";
-		console.log("Updated Timer #" + n + " Value to: " + txt);
+		CruisesLog("Updated Timer #" + n + " Value to: " + txt);
 	} else {
 		$("#event-block-" + n).removeClass("state-progress, state-upcoming").addClass("state-warning");
 		var badDateTxt = dates[n] + ' @ ' + times[n] + ' ' + zones[n];
 		document.getElementById(timerString).innerHTML = badDateTxt;
-		console.log("Updated Timer #" + n + " Value with BAD date: " + badDateTxt);
+		CruisesLog("Updated Timer #" + n + " Value with BAD date: " + badDateTxt);
 	}
 }
 
 // refresh countdown loop and run checkFinished()
 function refreshTimer() {
 	updateCounter++;
-	console.log("------ Timer refresh iteration #" + updateCounter + " ------");
+	CruisesLog("------ Timer refresh iteration #" + updateCounter + " ------");
 	for (var i=0; i < goodEvents.length; i++) {
 		timerUpdate(i);
 	}
@@ -200,7 +212,7 @@ function checkFinished() {
 	chrome.browserAction.setBadgeBackgroundColor({color: "#0c7cc4"}); // blue
 
 	if (finishedCounter != 0) {
-		console.log(finishedCounter + " Events Finished, Changing Header to " + newHeaderCounter + " Events");
+		CruisesLog(finishedCounter + " Events Finished, Changing Header to " + newHeaderCounter + " Events");
 		$("#eventsHeader").text(newHeaderCounter + ' Cruises Found');
 	}
 
@@ -268,7 +280,7 @@ function JSONSuccess(data) {
 		eventsURL[i] = data["data"]["children"][i]["data"]["url"];
 	};
 
-	console.log("Events Found: " + events.length);
+	CruisesLog("Events Found: " + events.length);
 
 	// Do initial format check and store found events
 	for (var j = 0; j < events.length; j++) {
@@ -298,8 +310,8 @@ function JSONSuccess(data) {
 		$("#footer").prepend('<p class="events-error">Omitting ' + badEventsCounter + ' ' + errorCruise + ' - Invalid title format:</p>');
 	}
 
-	console.log("Good Events Found: " + goodEvents.length);
-	console.log("Bad Events Found: " + badEventsCounter);
+	CruisesLog("Good Events Found: " + goodEvents.length);
+	CruisesLog("Bad Events Found: " + badEventsCounter);
 
 	if (goodEvents.length < 1) {
 		chrome.browserAction.setBadgeText({text: '0'});
@@ -325,8 +337,8 @@ function JSONSuccess(data) {
 			if (wellFormedEvent == 4) {
 				eventString = eventString.replace(/\[/g, "");
 				eventString = eventString.replace(/\]/g, "");
-				console.log("------ Event #"+eventNumber+" ------");
-				console.log("Event String: " + eventString);
+				CruisesLog("------ Event #"+eventNumber+" ------");
+				CruisesLog("Event String: " + eventString);
 				var href = eventsURL[i];
 				var eventParts = eventString.split("|");
 				var region = eventParts[0];
@@ -335,7 +347,7 @@ function JSONSuccess(data) {
 				var date = eventParts[1];
 				dates[i] = eventParts[1];
 				date = eventParts[1].replace(/\-/g, "/");
-				console.log("Date: " + date);
+				CruisesLog("Date: " + date);
 				if (date.indexOf("/") >= 0) {
 					date = date.split("/");
 					day = parseInt(date[0], 10);
@@ -361,7 +373,7 @@ function JSONSuccess(data) {
 					var monthCurrentEpoch = Date.now();
 					var monthAheadEpoch = (monthCurrentEpoch + 2678400000)/1000;
 					var eventEpoch = Date.UTC(year,month-1,day,12,0)/1000;
-					console.log("Date Epochs: " + monthAheadEpoch + " / " + eventEpoch);
+					CruisesLog("Date Epochs: " + monthAheadEpoch + " / " + eventEpoch);
 
 					if (eventEpoch > monthAheadEpoch) {
 						day = parseInt(date[1], 10);
@@ -379,7 +391,7 @@ function JSONSuccess(data) {
 				var titleShort;
 
 				//Log original time and timezone
-				console.log("Event title: " + title + " - " + eventParts[4] + " - " + day + "/" + month + "/" + year + " - " + eventParts[3]);
+				CruisesLog("Event title: " + title + " - " + eventParts[4] + " - " + day + "/" + month + "/" + year + " - " + eventParts[3]);
 
 				//Convert to four-digit military time and UTC time zone.
 				var time = eventParts[4];
@@ -395,20 +407,20 @@ function JSONSuccess(data) {
 					time = time.replace(/ /g, "");
 					if (time.length == 1) {
 						time = time + ":00";
-						console.log("Converted Time " + eventParts[4] + " To: " + time);
+						CruisesLog("Converted Time " + eventParts[4] + " To: " + time);
 					} else if (time.length == 2) {
 						time = time + ":00";
-						console.log("Converted Time " + eventParts[4] + " To: " + time);
+						CruisesLog("Converted Time " + eventParts[4] + " To: " + time);
 					} else if (time.length == 3) {
 						var time1 = time.charAt(0);
 						var time2 = time.replace(time1, "");
 						time = time1 + ":" + time2;
-						console.log("Converted Time " + eventParts[4] + " To: " + time);
+						CruisesLog("Converted Time " + eventParts[4] + " To: " + time);
 					} else if (time.length == 4) {
 						var time1 = time.substring(0, 2);
 						var time2 = time.substring(2, 4);
 						time = time1 + ":" + time2;
-						console.log("Converted Time " + eventParts[4] + " To: " + time);
+						CruisesLog("Converted Time " + eventParts[4] + " To: " + time);
 					}
 				}
 				time = time.split(":");
@@ -426,7 +438,7 @@ function JSONSuccess(data) {
 					}
 				}
 
-				console.log("24hr Hour: " + hour);
+				CruisesLog("24hr Hour: " + hour);
 
 				var timezone = eventParts[3];
 				zones[i] = timezone;
@@ -482,26 +494,26 @@ function JSONSuccess(data) {
 				var epochDSTStart;
 				var epochDSTStop;
 				epochNow = Date.now();
-				console.log("Epoch Now: " + epochNow);
+				CruisesLog("Epoch Now: " + epochNow);
 
 				if ((timezone.toLowerCase().indexOf("pst") >= 0) || (timezone.toLowerCase().indexOf("pdt") >= 0)) {
 					epochDSTStart = Date.UTC(year,monthDSTStart-1,dayDSTStart,09,00);
 					epochDSTStop = Date.UTC(year,monthDSTStop-1,dayDSTStop,09,00);
-					console.log("Epoch DST Start: " + epochDSTStart);
-					console.log("Epoch DST Stop: " + epochDSTStop);
+					CruisesLog("Epoch DST Start: " + epochDSTStart);
+					CruisesLog("Epoch DST Stop: " + epochDSTStop);
 					if ((epochNow >= epochDSTStart) && (epochNow <= epochDSTStop)) {
 						timezone = "UTC-7";
 					} else {
 						timezone = "UTC-8";
 					}
-					console.log("Timezone Converted: ")
+					CruisesLog("Timezone Converted: ")
 				}
 
 				if ((timezone.toLowerCase().indexOf("edt") >= 0) || (timezone.toLowerCase().indexOf("est") >= 0)) {
 					epochDSTStart = Date.UTC(year,monthDSTStart-1,dayDSTStart,12,00);
 					epochDSTStop = Date.UTC(year,monthDSTStop-1,dayDSTStop,12,00);
-					console.log("Epoch DST Start: " + epochDSTStart);
-					console.log("Epoch DST Stop: " + epochDSTStop);
+					CruisesLog("Epoch DST Start: " + epochDSTStart);
+					CruisesLog("Epoch DST Stop: " + epochDSTStop);
 					if ((epochNow >= epochDSTStart) && (epochNow <= epochDSTStop)) {
 						timezone = "UTC-4";
 					} else {
@@ -512,8 +524,8 @@ function JSONSuccess(data) {
 				if ((timezone.toLowerCase().indexOf("cdt") >= 0) || (timezone.toLowerCase().indexOf("cst") >= 0)) {
 					epochDSTStart = Date.UTC(year,monthDSTStart-1,dayDSTStart,11,00);
 					epochDSTStop = Date.UTC(year,monthDSTStop-1,dayDSTStop,11,00);
-					console.log("Epoch DST Start: " + epochDSTStart);
-					console.log("Epoch DST Stop: " + epochDSTStop);
+					CruisesLog("Epoch DST Start: " + epochDSTStart);
+					CruisesLog("Epoch DST Stop: " + epochDSTStop);
 					if ((epochNow >= epochDSTStart) && (epochNow <= epochDSTStop)) {
 						timezone = "UTC-5";
 					} else {
@@ -524,8 +536,8 @@ function JSONSuccess(data) {
 				if ((timezone.toLowerCase().indexOf("aedt") >= 0) || (timezone.toLowerCase().indexOf("aest") >= 0)) {
 					epochDSTStart = Date.UTC(year,monthDSTStart-1,dayDSTStart,20,00);
 					epochDSTStop = Date.UTC(year,monthDSTStop-1,dayDSTStop,20,00);
-					console.log("Epoch DST Start: " + epochDSTStart);
-					console.log("Epoch DST Stop: " + epochDSTStop);
+					CruisesLog("Epoch DST Start: " + epochDSTStart);
+					CruisesLog("Epoch DST Stop: " + epochDSTStop);
 					if ((epochNow >= epochDSTStart) && (epochNow <= epochDSTStop)) {
 						timezone = "UTC+11";
 					} else {
@@ -535,16 +547,16 @@ function JSONSuccess(data) {
 
 				timezone = timezone.replace(/ /g, "");
 				var substringBoundry = timezone.length;
-				console.log("Timezone Infos: " + timezone + ", length " + substringBoundry);
+				CruisesLog("Timezone Infos: " + timezone + ", length " + substringBoundry);
 
 				var convertedHour = hour;
-				console.log("Converted Hour 1: " + convertedHour);
+				CruisesLog("Converted Hour 1: " + convertedHour);
 
 				if (substringBoundry > 4) {
 					var timezoneOffsetHours = timezone.substring(4,substringBoundry);
-					console.log("Timezone Offset Hours String: " + timezoneOffsetHours);
+					CruisesLog("Timezone Offset Hours String: " + timezoneOffsetHours);
 					timezoneOffsetHours = parseInt(timezoneOffsetHours, 10);
-					console.log("Timezone Offset Hours Integer: " + timezoneOffsetHours);
+					CruisesLog("Timezone Offset Hours Integer: " + timezoneOffsetHours);
 
 					if (timezone.indexOf("-") >= 0) {
 						convertedHour = hour + timezoneOffsetHours;
@@ -576,13 +588,13 @@ function JSONSuccess(data) {
 					}
 				}
 
-				console.log("Converted Hour 2: " + convertedHour);
+				CruisesLog("Converted Hour 2: " + convertedHour);
 
 				//Output new UTC time
-				console.log("Converted to UTC: " + title + " - " + convertedHour + ":" + minute + " - " + day + "/" + month + "/" + year);
+				CruisesLog("Converted to UTC: " + title + " - " + convertedHour + ":" + minute + " - " + day + "/" + month + "/" + year);
 
 				epochFuture[i] = Date.UTC(year,month-1,day,convertedHour,minute);
-				console.log("Future Epoch Before MS: " + epochFuture[i]);
+				CruisesLog("Future Epoch Before MS: " + epochFuture[i]);
 				epochFuture[i] = Math.floor(epochFuture[i]/1000);
 				//epochFuture = 1440050400;
 				epochNow = Math.floor(Date.now()/1000);
@@ -596,7 +608,7 @@ function JSONSuccess(data) {
 					var localMonth = localDateString[1];
 					var localDay = localDateString[2];
 					var localTimeHr = localDate.getHours();
-					console.log("Local Hour: " + localTimeHr);
+					CruisesLog("Local Hour: " + localTimeHr);
 					var localTimeMin = localDate.getMinutes();
 					var amPm;
 					if (localTimeHr < 12) {
@@ -616,7 +628,7 @@ function JSONSuccess(data) {
 						localTimeMin = "0" + localTimeMin;
 					}
 					localDate = localDayString + " " + localMonth + " " + localDay + " @ " + localTimeHr + ":" + localTimeMin + "" + amPm;
-					console.log(localDate);
+					CruisesLog(localDate);
 					eventData[i] = [epochFuture[i], '<div id="event-block-' + i + '" class="event-block"><p class="event-title"><a title="Click to open this cruise on your browser" href="' + href + '">' + title + '</a></p><p id="timer' + i + '" class="event-timer"></p><p class="event-local-date">' + localDate + '</p><a class="block-link" a title="Click to open this cruise on your browser" href="' + href + '"></a></div>'];
 				} else {
 					eventData[i] = [9999999999, '<div id="event-block-' + i + '" class="event-block"><p class="event-title"><a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '">' + title + '</a></p><p id="timer' + i + '" class="event-timer"></p><p class="event-local-date">' + localDate + '</p><a class="block-link" a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '"></a></div>'];
@@ -624,7 +636,7 @@ function JSONSuccess(data) {
 			}
 		}
 
-		console.log('------ End of Events ------');
+		CruisesLog('------ End of Events ------');
 
 		eventData.sort(function(a,b) {
 			return b[0]-a[0]
@@ -638,12 +650,12 @@ function JSONSuccess(data) {
 
 		// refresh countdown timers every minute
 		setInterval(refreshTimer, 60000);
+	}
 
-		// background only
-		if (typeof background != 'undefined') {
-			// reload background process every 15 minutes (900.000ms) to catch new events
-			setTimeout(function(){ chrome.runtime.reload(); }, 900000);
-		}
+	// background only
+	if (typeof background != 'undefined') {
+		// reload background process every 15 minutes (900.000ms) to catch new events
+		setTimeout(function(){ chrome.runtime.reload(); }, 900000);
 	}
 
 	// popup only
@@ -688,26 +700,26 @@ $(window).load(function(){
 	// upcomingEventsJSON = 'events.json';
 
 	// by default cache lifetime is 5 min
-	console.log('JSON cache lifetime: '+JSONCache.settings.itemLifetime);
+	CruisesLog('JSON cache lifetime: '+JSONCache.settings.itemLifetime);
 
 	// let's cache JSON data to avoid spamming reddit server with requests
 	JSONCache.getCachedJSON(upcomingEventsJSON, {
 		onerror: function (jqXHR, textStatus, errorThrown, tryNumber) {
 			// jQuery.ajax fails
-			console.log('Failed JSON fetch number ' + tryNumber + '. Trying again...');
+			CruisesLog('Failed JSON fetch number ' + tryNumber + '. Trying again...');
 		},
 		ongiveup: function (status) {
 			// all fetch attemps failed
 			// TODO  add some message to let the user know we messed up
 			if (status === 'timeout') {
-				console.log('Network failure, cannot fetch JSON data.');
+				CruisesLog('Network failure, cannot fetch JSON data.');
 			} else {
-				console.log('Failed to get JSON data.');
+				CruisesLog('Failed to get JSON data.');
 			}
 		},
 		success: function (data) {
 			// uncomment next line to show data object in console
-			// console.log('JSON Data fetched successfully:', data);
+			// CruisesLog('JSON Data fetched successfully:' + data);
 
 			// we've got the stuff, let's continue
 			JSONSuccess(data);
