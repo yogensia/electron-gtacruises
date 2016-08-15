@@ -1,4 +1,4 @@
-# r/GTAV_Cruises Events Chrome Extension
+# PCCruises Events Chrome Extension
 
 This is a Chrome Extension port of the Events widget in [r\_GTAV\_Cruises](https://www.reddit.com/r/Gtav_cruises).
 
@@ -70,6 +70,7 @@ In a background process the script also checks for events that are starting in 3
 - **v1.0.3:** Tweaked message when no cruises are found.
 - **v1.0.4:** Possible fix for rare bug causing finished events to appear as undefined in some cases.
 - **v1.0.5:** Fix rare bug that prevented new cruises from being detected. Disabled console.log unless in dev mode.
+- **v1.1.0:** Added support for /r/ForzaCruises, added notifications for New Events, refactored cache system (might fix issue where extension would become unresposive until reinstalled).
 
 ## License
 

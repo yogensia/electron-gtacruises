@@ -1,9 +1,7 @@
 //
-// GTAV_Cruises Events Magic v6.0
-// ------------------------------
-//
-// GTAV_Cruises Events Extension for Google Chrome
-// https://github.com/qlimax5000/GTAV_Cruises_Events/
+// PCCruises Events Extension for Google Chrome
+// --------------------------------------------
+// https://github.com/yogensia/rGTAV_Cruises_Extension/
 //
 //
 // Original script by Justin Howe [https://github.com/JustinHowe]
