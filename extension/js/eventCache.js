@@ -31,7 +31,7 @@
 		waitTime: 200,
 
 		// Cache item validity lifetime in milliseconds.
-		itemLifetime: 1000,
+		itemLifetime: 5 * 60 * 1000,
 	};
 
 	// Namespace for all the code.
