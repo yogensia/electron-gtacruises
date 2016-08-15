@@ -7,7 +7,10 @@ function eventNotify(theTitle, theTime, theUrl, theBody, options) {
 	// do not show notifications on do not disturb mode
 	if (!options['notificationsDisableAll'] === true) {
 
-		if (((!options['notificationsDisable30min'] === true) && (theTime == '30')) || ((!options['notificationsDisable15min'] === true) && (theTime == '15'))) {
+		// 30 & 15 minute notifications
+		if (((!options['notificationsDisable30min'] === true) && (theTime == '30')) ||
+			((!options['notificationsDisable15min'] === true) && (theTime == '15')) ||
+			((!options['notificationsDisableNew'] === true) && (theTime == 'new'))) {
 
 			// Let's check if the browser supports notifications
 			if (!("Notification" in window)) {

@@ -31,6 +31,7 @@ var badEventsCounter = 0;
 var badEventUrl = [];
 var events = [];
 var eventTitlesCurrent = [];
+var eventTitlesCurrentUrl = [];
 var eventsURL = [];
 var epochNow;
 var updateCounter = 0;
@@ -61,12 +62,14 @@ function refreshOptions() {
 	chrome.storage.sync.get({
 		notificationsDisableAll:   false,
 		notificationsDisable30min: false,
-		notificationsDisable15min: false
+		notificationsDisable15min: false,
+		notificationsDisableNew:   false
 	}, function(items) {
 		// store options in array
 		options['notificationsDisableAll']   = items.notificationsDisableAll;
 		options['notificationsDisable30min'] = items.notificationsDisable30min;
 		options['notificationsDisable15min'] = items.notificationsDisable15min;
+		options['notificationsDisableNew']   = items.notificationsDisableNew;
 		CruisesLog('Fetching extension options from storage.');
 	});
 }
@@ -588,6 +591,10 @@ function JSONSuccess(data) {
 					}
 				}
 
+				// Add title to an array to check later for new events
+				eventTitlesCurrent.unshift(title.trim());
+				eventTitlesCurrentUrl.unshift(href);
+
 				CruisesLog("Converted Hour 2: " + convertedHour);
 
 				//Output new UTC time
@@ -652,6 +659,31 @@ function JSONSuccess(data) {
 		setInterval(refreshTimer, 60000);
 	}
 
+	// check for new events since last update, if new event is found send notification
+	Array.prototype.diff = function(a) {
+	    return this.filter(function(i) {return a.indexOf(i) < 0;});
+	};
+
+	var stringified = JSON.stringify(eventTitlesCurrent);
+	chrome.storage.local.get({eventTitles: false}, function(items) {
+		//CruisesLog('Old events:', items);
+		//CruisesLog('Current events:', eventTitlesCurrent);
+		//CruisesLog('Current events URLs:', eventTitlesCurrentUrl);
+		if (items.eventTitles !== undefined && typeof(items.eventTitles) == 'string') {
+			var eventTitlesNew = eventTitlesCurrent.diff( items.eventTitles );
+			//CruisesLog('New events:', eventTitlesNew);
+			if (eventTitlesNew.length > 0) {
+				for (var i = 0; i < eventTitlesNew.length; i++) {
+					CruisesLog('New Event with title "' + eventTitlesNew[i] + '" found, sending user notification...' );
+					var thisUrl = eventTitlesCurrentUrl[eventTitlesCurrent.indexOf(eventTitlesNew[i])];
+				 	eventNotify(eventTitlesNew[i], 'new', thisUrl, 'A new event has been posted!\nClick here for more info.', options);
+				 };
+			}
+		}
+	});
+	// update stored events
+	chrome.storage.local.set({eventTitles: stringified});
+
 	// background only
 	if (typeof background != 'undefined') {
 		// reload background process every 15 minutes (900.000ms) to catch new events
@@ -697,7 +729,7 @@ $(window).load(function(){
 	var upcomingEventsJSON = 'https://www.reddit.com/r/GTAV_Cruises/search.json?q=flair%3A%22events%22&restrict_sr=on&sort=new&t=all';
 
 	// uncomment to use local test event data
-	upcomingEventsJSON = 'events.json';
+	//upcomingEventsJSON = 'events.json';
 
 	// let's cache JSON data to avoid spamming reddit server with requests
 	JSONCache.getCachedJSON(upcomingEventsJSON, {
