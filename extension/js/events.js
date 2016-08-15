@@ -30,30 +30,30 @@ var goodEventsCounter = 0;
 var badEventsCounter = 0;
 var badEventUrl = [];
 var events = [];
+var eventTitlesCurrent = [];
 var eventsURL = [];
 var epochNow;
 var updateCounter = 0;
 var finishedCounter = 0;
 var noEvents = false;
 var options = [];
-var dev = false;
+var debug = true;
 
-// custom console log function for dev mode only
-if (dev === false) {
-	function CruisesLog() {
-		return false;
-	}
-} else {
-	function CruisesLog(message) {
-		console.log(message);
-	}
-}
+// custom console log function for debug mode only
+var CruisesLog = function () {
+    if (debug && window.console) {
+        var args = Array.prototype.slice.call(arguments);
+        args.unshift('PCCruises:');
+        console.log.apply(console, args);
+    }
+};
 
 // output on console whether we are runing in the background or the popup process
 if (typeof background != 'undefined') {
-	CruisesLog("Script running in background");
+	CruisesLog("Script running in background mode, running cache garbage collection.");
+	JSONCache.clear();
 } else {
-	CruisesLog("Script running in popup");
+	CruisesLog("Script running in popup mode.");
 }
 
 // get extension options
@@ -67,7 +67,7 @@ function refreshOptions() {
 		options['notificationsDisableAll']   = items.notificationsDisableAll;
 		options['notificationsDisable30min'] = items.notificationsDisable30min;
 		options['notificationsDisable15min'] = items.notificationsDisable15min;
-		CruisesLog('Refreshing extension options' + options);
+		CruisesLog('Fetching extension options from storage.');
 	});
 }
 refreshOptions();
@@ -131,10 +131,10 @@ function timerUpdate(n) {
 				// 30/15 minute notifications
 				if (m == 30) {
 					eventNotify(title, '30', eventsURL[n], 'This event starts in 30 minutes!\nClick here for more info.', options);
-					CruisesLog('Event "'+title+'" with url "'+eventsURL[n]+'" starting in 30 min, attempting to notify to user...');
+					CruisesLog('Event "'+title+'" with url "'+eventsURL[n]+'" starting in 30 min, attempting to notify user...');
 				} else if (m == 15) {
 					eventNotify(title, '15', eventsURL[n], 'This event starts in 15 minutes!\nClick here for more info.', options);
-					CruisesLog('Event "'+title+'" with url "'+eventsURL[n]+'" starting in 15 min, attempting to notify to user...');
+					CruisesLog('Event "'+title+'" with url "'+eventsURL[n]+'" starting in 15 min, attempting to notify user...');
 				}
 			}
 			txt = "Starts in " + m + " Min";
@@ -697,10 +697,7 @@ $(window).load(function(){
 	var upcomingEventsJSON = 'https://www.reddit.com/r/GTAV_Cruises/search.json?q=flair%3A%22events%22&restrict_sr=on&sort=new&t=all';
 
 	// uncomment to use local test event data
-	// upcomingEventsJSON = 'events.json';
-
-	// by default cache lifetime is 5 min
-	CruisesLog('JSON cache lifetime: '+JSONCache.settings.itemLifetime);
+	upcomingEventsJSON = 'events.json';
 
 	// let's cache JSON data to avoid spamming reddit server with requests
 	JSONCache.getCachedJSON(upcomingEventsJSON, {
@@ -714,7 +711,11 @@ $(window).load(function(){
 			if (status === 'timeout') {
 				CruisesLog('Network failure, cannot fetch JSON data.');
 			} else {
-				CruisesLog('Failed to get JSON data.');
+				if (status) {
+					CruisesLog('Failed to get JSON data with error:', status);
+				} else {
+					CruisesLog('Failed to get JSON data.');
+				}
 			}
 		},
 		success: function (data) {
