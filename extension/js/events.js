@@ -292,8 +292,9 @@ function getBadDate(badDate) {
 function JSONSuccess(data) {
 	// Get events from JSON response
 	for (var i = data["data"]["children"].length - 1; i >= 0; i--) {
-		events[i] = data["data"]["children"][i]["data"]["title"];
-		eventsURL[i] = data["data"]["children"][i]["data"]["url"];
+		events[i]     = data["data"]["children"][i]["data"]["title"];
+		eventsURL[i]  = data["data"]["children"][i]["data"]["url"];
+		eventsGame[i] = data["data"]["children"][i]["data"]["subreddit"];
 	};
 
 	CruisesLog("Events Found: " + events.length);
@@ -645,9 +646,9 @@ function JSONSuccess(data) {
 					}
 					localDate = localDayString + " " + localMonth + " " + localDay + " @ " + localTimeHr + ":" + localTimeMin + "" + amPm;
 					CruisesLog(localDate);
-					eventData[i] = [epochFuture[i], '<div id="event-block-' + i + '" class="event-block"><p class="event-title"><a title="Click to open this cruise on your browser" href="' + href + '">' + title + '</a></p><p id="timer' + i + '" class="event-timer"></p><p class="event-local-date">' + localDate + '</p><a class="block-link" a title="Click to open this cruise on your browser" href="' + href + '"></a></div>'];
+					eventData[i] = [epochFuture[i], '<div id="event-block-' + i + '" class="event-block subreddit-' + eventsGame[i] + '"><p class="event-title"><a title="Click to open this cruise on your browser" href="' + href + '">' + title + '</a></p><p id="timer' + i + '" class="event-timer"></p><p class="event-local-date">' + localDate + '</p><a class="block-link" a title="Click to open this cruise on your browser" href="' + href + '"></a></div>'];
 				} else {
-					eventData[i] = [9999999999, '<div id="event-block-' + i + '" class="event-block"><p class="event-title"><a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '">' + title + '</a></p><p id="timer' + i + '" class="event-timer"></p><p class="event-local-date">' + localDate + '</p><a class="block-link" a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '"></a></div>'];
+					eventData[i] = [9999999999, '<div id="event-block-' + i + '" class="event-block subreddit-' + eventsGame[i] + '"><p class="event-title"><a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '">' + title + '</a></p><p id="timer' + i + '" class="event-timer"></p><p class="event-local-date">' + localDate + '</p><a class="block-link" a title="No Countdown Timer - Bad Date - Should be day/month/year. err_code:id10t" href="' + href + '"></a></div>'];
 				}
 			}
 		}
@@ -661,6 +662,15 @@ function JSONSuccess(data) {
 		for (var n = 0; n < goodEvents.length; n++) {
 			$("#eventsContent").prepend(eventData[n][1]);
 		}
+
+		// move event blocks into the corresponding game section
+		$(".subreddit-GTAV_Cruises").appendTo("#eventsGTAV");
+		$(".subreddit-ForzaCruises").appendTo("#eventsForza");
+
+		// make game sections collapsable
+		$( "#eventsContent h4" ).click(function() {
+			$(this).toggleClass('collapsed').next().slideToggle();
+		});
 
 		refreshTimer();
 
@@ -718,14 +728,14 @@ function JSONSuccess(data) {
 $(window).load(function(){
 
 	// start editing some html
-	var titlebar = '<h3><a id="eventsHeader" href="https://www.reddit.com/r/GTAV_Cruises/search?q=flair%3A%22events%22&restrict_sr=on&sort=new&t=all">Loading...</a></h3>';
+	var titlebar = '<h3><a id="eventsHeader" href="https://www.reddit.com/r/GTAV_Cruises+ForzaCruises/search?q=flair%3A%22events%22&restrict_sr=on&sort=new&t=all">Loading...</a></h3>';
 	$("#titlebar").prepend(titlebar);
 
-	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module" style="text-align:center"><div id="eventsContent"></div></blockquote></div>';
+	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module" style="text-align:center"><div id="eventsContent"><h4 id="headerEventsGTAV">GTAV Cruises</h4><div class="gameSection" id="eventsGTAV"></div><h4 id="headerEventsForza">Forza Cruises</h4><div class="gameSection" id="eventsForza"></div></div></blockquote></div>';
 	$("#wrapper").prepend(eventModuleHTML);
 
 	// get JSON data for reddit event search page
-	var upcomingEventsJSON = 'https://www.reddit.com/r/GTAV_Cruises/search.json?q=flair%3A%22events%22&restrict_sr=on&sort=new&t=all';
+	var upcomingEventsJSON = 'https://www.reddit.com/r/GTAV_Cruises+ForzaCruises/search.json?q=flair%3A%22events%22&restrict_sr=on&sort=new&t=all';
 
 	// uncomment to use local test event data
 	//upcomingEventsJSON = 'events.json';
