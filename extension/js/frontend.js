@@ -30,10 +30,10 @@ $(function(){
 	// titlebar reload icon
 	var titlebarReload = document.getElementById('titlebar-reload');
 	titlebarReload.addEventListener('click', function() {
-		// clear JSON cache from local storage
-		localStorage.removeItem("JSONCache data https://www.reddit.com/r/GTAV_Cruises/search.json?q=flair%3A%22events%22&restrict_sr=on&sort=new&t=all");
-		localStorage.removeItem("JSONCache time https://www.reddit.com/r/GTAV_Cruises/search.json?q=flair%3A%22events%22&restrict_sr=on&sort=new&t=all");
-		localStorage.removeItem("JSONCache size");
+		CruisesLog('Reloading...');
+		// clear JSON cache from chrome.storage.local
+		chrome.storage.local.remove('eventCacheData');
+		chrome.storage.local.remove('eventCacheTime');
 		// reload popup
 		window.location.href="popup.html";
 	});
