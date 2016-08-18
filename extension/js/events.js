@@ -38,6 +38,7 @@ var finishedCounter = 0;
 var noEvents = false;
 var options = [];
 var debug = true;
+var badgeCounter = false;
 
 // custom console log function for debug mode only
 var CruisesLog = function () {
@@ -216,12 +217,15 @@ function checkFinished() {
 		}
 	}
 
-	// update icon badge and tooltip
-	var newHeaderCounter = goodEvents.length - finishedCounter;
-	chrome.browserAction.setBadgeText({text: newHeaderCounter.toString()}); // length have 10+ unread items.
-	chrome.browserAction.setTitle({title: "r/GTAVCruises: "+newHeaderCounter+" Cruises Found"})
-	//chrome.browserAction.setBadgeBackgroundColor({color: "#56973b"}); // green
-	chrome.browserAction.setBadgeBackgroundColor({color: "#0c7cc4"}); // blue
+	// update icon badge and tooltip (only once every 15 minutes to avoid resetting counter updates from popup)
+	if (badgeCounter == false) {
+		badgeCounter = true;
+		var newHeaderCounter = goodEvents.length - finishedCounter;
+		chrome.browserAction.setBadgeText({text: newHeaderCounter.toString()}); // length have 10+ unread items.
+		chrome.browserAction.setTitle({title: "PCCruises: "+newHeaderCounter+" Cruises Found"})
+		//chrome.browserAction.setBadgeBackgroundColor({color: "#56973b"}); // green
+		chrome.browserAction.setBadgeBackgroundColor({color: "#0c7cc4"}); // blue
+	}
 
 	if (finishedCounter != 0) {
 		CruisesLog(finishedCounter + " Events Finished, Changing Header to " + newHeaderCounter + " Events");
