@@ -704,18 +704,6 @@ function JSONSuccess(data) {
 // wait for window load before continuing
 $(window).load(function(){
 
-	/*
-	// notification tests (popup only)
-	if (typeof background == 'undefined') {
-		function notifyTest() {
-			eventNotify('30Min Notification Test', '30', 'https://www.reddit.com/r/GTAV_Cruises/comments/4ndr0s/global_11062016_dlc_racing_playlist_gmt1_2000/', 'This event starts in 30 minutes!\nClick here for more info.', options);
-			eventNotify('15Min Notification Test', '15', 'https://www.reddit.com/r/GTAV_Cruises/comments/4ndr0s/global_11062016_dlc_racing_playlist_gmt1_2000/', 'This event starts in 30 minutes!\nClick here for more info.', options);
-		}
-		setInterval(notifyTest, 5000);
-		// setTimeout(function(){eventNotify('Dank Meme Cruise', '30', 'https://www.reddit.com/r/GTAV_Cruises/comments/4ndr0s/global_11062016_dlc_racing_playlist_gmt1_2000/', 'This event starts in 30 minutes!\nClick here for more info.', options)}, 5000);
-	}
-	*/
-
 	// start editing some html
 	var titlebar = '<h3><a id="eventsHeader" href="https://www.reddit.com/r/GTAV_Cruises/search?q=flair%3A%22events%22&restrict_sr=on&sort=new&t=all">Loading...</a></h3>';
 	$("#titlebar").prepend(titlebar);
