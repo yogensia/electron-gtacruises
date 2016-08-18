@@ -31,6 +31,7 @@ var events = [];
 var eventTitlesCurrent = [];
 var eventTitlesCurrentUrl = [];
 var eventsURL = [];
+var eventsGame = [];
 var epochNow;
 var updateCounter = 0;
 var finishedCounter = 0;
@@ -49,8 +50,9 @@ var CruisesLog = function () {
 
 // output on console whether we are runing in the background or the popup process
 if (typeof background != 'undefined') {
-	CruisesLog("Script running in background mode, running cache garbage collection.");
-	JSONCache.clear();
+	CruisesLog("Script running in background mode.");
+	//CruisesLog("Script running in background mode, running cache garbage collection.");
+	//JSONCache.clear();
 } else {
 	CruisesLog("Script running in popup mode.");
 }
@@ -82,8 +84,7 @@ function toTitleCase(str) {
 // this function is called for every valid event found during refreshTimer()
 // we also send notifications from here
 function timerUpdate(n) {
-
-	// get title and url ready for notification functionality
+	// get title ready for notification functionality
 	var eventTitle = events[n].replace(/\[/g, "");
 	eventTitle = eventTitle.replace(/\]/g, "");
 	var eventTitle = eventTitle.split("|");
@@ -202,6 +203,16 @@ function checkFinished() {
 	for (var n = 0; n < goodEvents.length; n++) {
 		if ($('#timer' + n + ':contains("Finished")').length > 0) {
 			finishedCounter++;
+		} else {
+			// get event title
+			var eventTitle = events[n].replace(/\[/g, "");
+			eventTitle = eventTitle.replace(/\]/g, "");
+			eventTitle = eventTitle.split("|");
+			var title = eventTitle[2].trim();
+
+			// add titles of active events to an array to check later for new event notifications
+			eventTitlesCurrent.unshift(title);
+			eventTitlesCurrentUrl.unshift(eventsURL[n]);
 		}
 	}
 
@@ -663,23 +674,25 @@ function JSONSuccess(data) {
 	};
 
 	var stringified = JSON.stringify(eventTitlesCurrent);
-	chrome.storage.local.get({eventTitles: false}, function(items) {
-		//CruisesLog('Old events:', items);
-		//CruisesLog('Current events:', eventTitlesCurrent);
-		//CruisesLog('Current events URLs:', eventTitlesCurrentUrl);
+	// get last known active event titles from storage, if any
+	chrome.storage.local.get({eventTitles: '[]'}, function(items) {
+		CruisesLog('Previous events:', items.eventTitles);
+		CruisesLog('Current events:', stringified);
+		// if there are any last known events, compare them with current active (not finished) events
 		if (items.eventTitles !== undefined && typeof(items.eventTitles) == 'string') {
-			var eventTitlesNew = eventTitlesCurrent.diff( items.eventTitles );
-			//CruisesLog('New events:', eventTitlesNew);
+			var eventTitlesNew = eventTitlesCurrent.diff(items.eventTitles);
+			CruisesLog('New events:', eventTitlesNew);
+			// for each new event found sent a desktop notification
 			if (eventTitlesNew.length > 0) {
 				for (var i = 0; i < eventTitlesNew.length; i++) {
 					CruisesLog('New Event with title "' + eventTitlesNew[i] + '" found, sending user notification...' );
 					var thisUrl = eventTitlesCurrentUrl[eventTitlesCurrent.indexOf(eventTitlesNew[i])];
-				 	eventNotify(eventTitlesNew[i], 'new', thisUrl, 'A new event has been posted!\nClick here for more info.', options);
-				 };
+					eventNotify(eventTitlesNew[i], 'new', thisUrl, 'A new event has been posted!\nClick here for more info.', options);
+				};
 			}
 		}
 	});
-	// update stored events
+	// store current events in storage as last known
 	chrome.storage.local.set({eventTitles: stringified});
 
 	// background only
