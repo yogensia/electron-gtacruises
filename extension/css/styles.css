@@ -218,8 +218,8 @@ h3 a {
 }
 
 #wrapper {
-    height: 100%;
-    outline: none;
+	height: 100%;
+	outline: none;
 }
 
 .mCSB_outside+.mCS-minimal-dark.mCSB_scrollTools_vertical, .mCSB_outside+.mCS-minimal.mCSB_scrollTools_vertical {
@@ -371,24 +371,32 @@ blockquote.events-module p {
 
 /* Headers */
 #eventsContent h4 {
-	background: #87c6f5;
 	border-radius: 3px;
-	color: #fff;
+	color: #444;
 	cursor: pointer;
 	display: block;
 	font-size: 14px;
-	margin: 0 0 12px;
-	padding: 5px 30px;
+	margin: 0 0 6px;
 	text-transform: uppercase;
-}
-#eventsContent h4:hover {
-	background: #58b2f5;
+	text-align: left;
+	transition: all 150ms;
 }
 #eventsContent h4.collapsed {
-	background: #fb8f8f;
+	opacity: 0.5;
 }
-#eventsContent h4.collapsed:hover {
-	background: #fe6363;
+
+#eventsContent h4 span {
+	background: url(../img/titlebar-actions.png);
+	background-position: -250px -10px;
+	display: block;
+	float: left;
+	height: 20px;
+	margin-right: 5px;
+	width: 20px;
+	transition: transform 150ms;
+}
+#eventsContent h4.collapsed span {
+	transform: rotate(-90deg);
 }
 
 .gameSection {

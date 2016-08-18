@@ -64,9 +64,11 @@ function refreshOptions() {
 		notificationsDisableAll:   false,
 		notificationsDisable30min: false,
 		notificationsDisable15min: false,
-		notificationsDisableNew:   false
+		notificationsDisableNew:   false,
+		headerEventsGTAVHide:      false,
+		headerEventsGForzaHide:    false
 	}, function(items) {
-		// store options in array
+		// store notification options in array
 		options['notificationsDisableAll']   = items.notificationsDisableAll;
 		options['notificationsDisable30min'] = items.notificationsDisable30min;
 		options['notificationsDisable15min'] = items.notificationsDisable15min;
@@ -668,8 +670,44 @@ function JSONSuccess(data) {
 		$(".subreddit-ForzaCruises").appendTo("#eventsForza");
 
 		// make game sections collapsable
-		$( "#eventsContent h4" ).click(function() {
+		$( "#headerEventsGTAV" ).click(function() {
 			$(this).toggleClass('collapsed').next().slideToggle();
+			chrome.storage.sync.get({headerEventsGTAVHide: false}, function(items) {
+				if ( items.headerEventsGTAVHide === true ) {
+					chrome.storage.sync.set({ headerEventsGTAVHide: false })
+				} else {
+					chrome.storage.sync.set({ headerEventsGTAVHide: true })
+				}
+				// make sure the script reloads options after changing them
+				refreshOptions();
+			});
+		});
+		$( "#headerEventsForza" ).click(function() {
+			$(this).toggleClass('collapsed').next().slideToggle();
+			chrome.storage.sync.get({headerEventsForzaHide: false}, function(items) {
+				if ( items.headerEventsForzaHide === true ) {
+					chrome.storage.sync.set({ headerEventsForzaHide: false })
+				} else {
+					chrome.storage.sync.set({ headerEventsForzaHide: true })
+				}
+				// make sure the script reloads options after changing them
+				refreshOptions();
+			});
+		});
+
+		// check for hidden game sections on load
+		chrome.storage.sync.get({
+			headerEventsGTAVHide: false,
+			headerEventsForzaHide: false
+		}, function(items) {
+			if ( items.headerEventsGTAVHide === true ) {
+				CruisesLog('items.headerEventsGTAVHide:', items.headerEventsGTAVHide);
+				$( "#headerEventsGTAV" ).toggleClass('collapsed').next().hide();
+			}
+			if ( items.headerEventsForzaHide === true ) {
+				CruisesLog('items.headerEventsForzaHide:', items.headerEventsForzaHide);
+				$( "#headerEventsForza" ).toggleClass('collapsed').next().hide();
+			}
 		});
 
 		refreshTimer();
@@ -702,6 +740,7 @@ function JSONSuccess(data) {
 			}
 		}
 	});
+
 	// store current events in storage as last known
 	chrome.storage.local.set({eventTitles: stringified});
 
@@ -731,14 +770,14 @@ $(window).load(function(){
 	var titlebar = '<h3><a id="eventsHeader" href="https://www.reddit.com/r/GTAV_Cruises+ForzaCruises/search?q=flair%3A%22events%22&restrict_sr=on&sort=new&t=all">Loading...</a></h3>';
 	$("#titlebar").prepend(titlebar);
 
-	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module" style="text-align:center"><div id="eventsContent"><h4 id="headerEventsGTAV">GTAV Cruises</h4><div class="gameSection" id="eventsGTAV"></div><h4 id="headerEventsForza">Forza Cruises</h4><div class="gameSection" id="eventsForza"></div></div></blockquote></div>';
+	var eventModuleHTML = '<div id="eventsWidget"><blockquote class="events-module" style="text-align:center"><div id="eventsContent"><h4 id="headerEventsGTAV"><span class="icon"></span>GTAV Cruises</h4><div class="gameSection" id="eventsGTAV"></div><h4 id="headerEventsForza"><span class="icon"></span>Forza Cruises</h4><div class="gameSection" id="eventsForza"></div></div></blockquote></div>';
 	$("#wrapper").prepend(eventModuleHTML);
 
 	// get JSON data for reddit event search page
 	var upcomingEventsJSON = 'https://www.reddit.com/r/GTAV_Cruises+ForzaCruises/search.json?q=flair%3A%22events%22&restrict_sr=on&sort=new&t=all';
 
 	// uncomment to use local test event data
-	//upcomingEventsJSON = 'events.json';
+	// upcomingEventsJSON = 'events.json';
 
 	// let's cache JSON data to avoid spamming reddit server with requests
 	JSONCache.getCachedJSON(upcomingEventsJSON, {
