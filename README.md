@@ -1,4 +1,4 @@
-# PCCruises Events Chrome Extension
+# PCCruises Events Extension for Google Chrome
 
 This is a Chrome Extension port of the Events widget in [r\_GTAV\_Cruises](https://www.reddit.com/r/Gtav_cruises).
 
@@ -21,7 +21,7 @@ The code is mainly JavaScript. If you know JS you can fork or download this repo
 
 - **All the original functionality of the userscript version:** Shows events in your time zone, with countdown timers, etc.
 - **Toolbar Icon:** The events widget is now accessible from Chrome's toolbar. The icon shows the number of found cruises.
-- **Notifications:** As long as Chrome is open, you'll get toast notifications in your desktop when a cruise is about to start. These notifications can be disabled.
+- **Notifications:** As long as Chrome is open, you'll get toast notifications in your desktop when an event is added or about to start. These notifications can be disabled.
 - **Heavily Optimized:** Instead of using a hidden iframe, events are now fetched via JSON. This is faster because it downloads less irrelevant data and uses only one web request.
 - **Cache:** Events are cached for 5 minutes, which reduces requests to reddit's servers and improves performance even further, especially if you open the menu several times in a couple of minutes.
 
@@ -55,12 +55,14 @@ In a background process the script also checks for events that are starting in 3
 
 * The script does have other fixes to attempt to resolve human formatting errors, but plase follow these guideline to minimize possible issues. **The most important thing is to always use day/month/year for your date.**
 
+
 ## Credits
 
 - Events widget originally coded by [Syntax](https://github.com/JustinHowe).
 - UI designed by [Yogensia](https://github.com/Yogensia).
 - Updates made by [qlimax5000](https://github.com/qlimax5000) & [Johninatoooor](https://www.reddit.com/user/Johninatoooor).
 - Further updates, optimization, and port to Chrome Extension by [Yogensia](https://github.com/Yogensia).
+
 
 ## Changelog
 
@@ -71,6 +73,7 @@ In a background process the script also checks for events that are starting in 3
 - **v1.0.4:** Possible fix for rare bug causing finished events to appear as undefined in some cases.
 - **v1.0.5:** Fix rare bug that prevented new cruises from being detected. Disabled console.log unless in dev mode.
 - **v1.1.0:** Added support for /r/ForzaCruises, added notifications for New Events, refactored cache system (might fix issue where extension would become unresposive until reinstalled).
+
 
 ## License
 
