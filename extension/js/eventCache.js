@@ -32,6 +32,9 @@
 
 		// Cache item validity lifetime in milliseconds.
 		itemLifetime: 5 * 60 * 1000,
+
+		// Debug item lifetime of 1 second
+		// itemLifetime: 1000,
 	};
 
 	// Namespace for all the code.
