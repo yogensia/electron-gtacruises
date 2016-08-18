@@ -368,3 +368,29 @@ blockquote.events-module p {
 	color: #d72e2e;
 	font-weight: bold;
 }
+
+/* Headers */
+#eventsContent h4 {
+	background: #87c6f5;
+	border-radius: 3px;
+	color: #fff;
+	cursor: pointer;
+	display: block;
+	font-size: 14px;
+	margin: 0 0 12px;
+	padding: 5px 30px;
+	text-transform: uppercase;
+}
+#eventsContent h4:hover {
+	background: #58b2f5;
+}
+#eventsContent h4.collapsed {
+	background: #fb8f8f;
+}
+#eventsContent h4.collapsed:hover {
+	background: #fe6363;
+}
+
+.gameSection {
+	margin: 0 0 12px;
+}
