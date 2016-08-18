@@ -87,7 +87,7 @@ function timerUpdate(n) {
 	// get title ready for notification functionality
 	var eventTitle = events[n].replace(/\[/g, "");
 	eventTitle = eventTitle.replace(/\]/g, "");
-	var eventTitle = eventTitle.split("|");
+	eventTitle = eventTitle.split("|");
 	var title = eventTitle[2].trim();
 
 	// timer logic
@@ -600,10 +600,6 @@ function JSONSuccess(data) {
 					}
 				}
 
-				// Add title to an array to check later for new events
-				eventTitlesCurrent.unshift(title.trim());
-				eventTitlesCurrentUrl.unshift(href);
-
 				CruisesLog("Converted Hour 2: " + convertedHour);
 
 				//Output new UTC time
@@ -670,7 +666,7 @@ function JSONSuccess(data) {
 
 	// check for new events since last update, if new event is found send notification
 	Array.prototype.diff = function(a) {
-	    return this.filter(function(i) {return a.indexOf(i) < 0;});
+		return this.filter(function(i) {return a.indexOf(i) < 0;});
 	};
 
 	var stringified = JSON.stringify(eventTitlesCurrent);
