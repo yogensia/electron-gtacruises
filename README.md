@@ -2,19 +2,21 @@
 
 This is a Chrome Extension port of the Events widget in [r\_GTAV\_Cruises](https://www.reddit.com/r/Gtav_cruises).
 
-It puts an icon in Chrome's toolbar to open the Events widget and notifies you when cruises are about to start.
+It puts an icon in Chrome's toolbar to open the Events widget and notifies you when cruises from [/r/GTAV_Cruises](https://www.reddit.com/r/Gtav_cruises) & [/r/ForzaCruises](https://www.reddit.com/r/ForzaCruises) are added or about to start.
 
 
 ## Install
 
 You can [add the extension from the Chrome Store](https://chrome.google.com/webstore/detail/rgtavcruises-extension/bnmgigkjikbelbgpflbgedefjiaolfbe).
 
-This will keep you up to date with new versions automatically.
+Chrome will keep you up to date with new versions automatically.
 
 
-## Pack it yourself
+## Screenshots
 
-The code is mainly JavaScript. If you know JS you can fork or download this repository, edit it and load or pack the extension yourself from the Extensions page in Chrome.
+- [Events window in toobar](https://dl.dropboxusercontent.com/u/251256/ShareX/chrome_2016-06-12_21-29-48.png)
+- [30 minute notification of a cruise](https://dl.dropboxusercontent.com/u/251256/ShareX/chrome_2016-06-12_21-29-15.png)
+- [15 minute notification of a cruise](https://dl.dropboxusercontent.com/u/251256/ShareX/chrome_2016-06-12_21-44-18.png)
 
 
 ## Features
@@ -27,8 +29,6 @@ The code is mainly JavaScript. If you know JS you can fork or download this repo
 
 
 ## What happens under the hood
-
-For those who are interested, the script does the following (and ONLY the following):
 
 1. Fetch event data via [reddit's search page JSON request](https://www.reddit.com/r/GTAV_Cruises/search.json?q=flair%3A%22events%22&restrict_sr=on&sort=new&t=all).
 
@@ -56,12 +56,24 @@ In a background process the script also checks for events that are starting in 3
 * The script does have other fixes to attempt to resolve human formatting errors, but plase follow these guideline to minimize possible issues. **The most important thing is to always use day/month/year for your date.**
 
 
+## Pack it yourself
+
+The code is mainly JavaScript. If you know JS you can fork or download this repository, edit it and load or pack the extension yourself from the Extensions page in Google Chrome.
+
+
 ## Credits
 
 - Events widget originally coded by [Syntax](https://github.com/JustinHowe).
 - UI designed by [Yogensia](https://github.com/Yogensia).
 - Updates made by [qlimax5000](https://github.com/qlimax5000) & [Johninatoooor](https://www.reddit.com/user/Johninatoooor).
 - Further updates, optimization, and port to Chrome Extension by [Yogensia](https://github.com/Yogensia).
+
+
+## Known Issues
+
+- The issue where the extension would become unresponsive and require to be reinstalled should be fixed now. If it happens again please let me know!
+
+For other issues or expected improvements check the [issues section in Githhub](https://github.com/yogensia/rGTAV_Cruises_Extension/issues).
 
 
 ## Changelog
@@ -72,7 +84,8 @@ In a background process the script also checks for events that are starting in 3
 - **v1.0.3:** Tweaked message when no cruises are found.
 - **v1.0.4:** Possible fix for rare bug causing finished events to appear as undefined in some cases.
 - **v1.0.5:** Fix rare bug that prevented new cruises from being detected. Disabled console.log unless in dev mode.
-- **v1.1.0:** Added support for /r/ForzaCruises, added notifications for New Events, refactored cache system (might fix issue where extension would become unresposive until reinstalled).
+- **v1.1.0:** Added support for /r/ForzaCruises, added notifications for New Events, refactored cache system (should fix issue where extension would become unresposive until reinstalled).
+Known Issues
 
 
 ## License
