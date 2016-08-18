@@ -85,7 +85,6 @@ For other issues or expected improvements check the [issues section in Githhub](
 - **v1.0.4:** Possible fix for rare bug causing finished events to appear as undefined in some cases.
 - **v1.0.5:** Fix rare bug that prevented new cruises from being detected. Disabled console.log unless in dev mode.
 - **v1.1.0:** Added support for /r/ForzaCruises, added notifications for New Events, refactored cache system (should fix issue where extension would become unresposive until reinstalled).
-Known Issues
 
 
 ## License
