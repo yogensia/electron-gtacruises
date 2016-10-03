@@ -32,6 +32,7 @@ var eventTitlesCurrent = [];
 var eventTitlesCurrentUrl = [];
 var eventsURL = [];
 var eventsGame = [];
+var eventsGameNice = [];
 var epochNow;
 var updateCounter = 0;
 var finishedCounter = 0;
@@ -65,6 +66,8 @@ function refreshOptions() {
 		notificationsDisable30min: false,
 		notificationsDisable15min: false,
 		notificationsDisableNew:   false,
+		notificationsDisableGTAV:  false,
+		notificationsDisableForza: false,
 		headerEventsGTAVHide:      false,
 		headerEventsGForzaHide:    false
 	}, function(items) {
@@ -73,6 +76,8 @@ function refreshOptions() {
 		options['notificationsDisable30min'] = items.notificationsDisable30min;
 		options['notificationsDisable15min'] = items.notificationsDisable15min;
 		options['notificationsDisableNew']   = items.notificationsDisableNew;
+		options['notificationsDisableGTAV']  = items.notificationsDisableGTAV;
+		options['notificationsDisableForza'] = items.notificationsDisableForza;
 		CruisesLog('Fetching extension options from storage.');
 	});
 }
@@ -135,11 +140,11 @@ function timerUpdate(n) {
 			if (typeof background != 'undefined') {
 				// 30/15 minute notifications
 				if (m == 30) {
-					eventNotify(title, '30', eventsURL[n], 'This event starts in 30 minutes!\nClick here for more info.', options);
-					CruisesLog('Event "'+title+'" with url "'+eventsURL[n]+'" starting in 30 min, attempting to notify user...');
+					eventNotify(title, '30', eventsGameNice[n], eventsURL[n], 'This '+eventsGameNice[n]+' event starts in 30 minutes!\nClick here for more info.', options);
+					CruisesLog('Event "'+title+'" ('+eventsGameNice[n]+') with url "'+eventsURL[n]+'" starting in 30 min, attempting to notify user...');
 				} else if (m == 15) {
-					eventNotify(title, '15', eventsURL[n], 'This event starts in 15 minutes!\nClick here for more info.', options);
-					CruisesLog('Event "'+title+'" with url "'+eventsURL[n]+'" starting in 15 min, attempting to notify user...');
+					eventNotify(title, '15', eventsGameNice[n], eventsURL[n], 'This '+eventsGameNice[n]+' event starts in 15 minutes!\nClick here for more info.', options);
+					CruisesLog('Event "'+title+'" ('+eventsGameNice[n]+') with url "'+eventsURL[n]+'" starting in 15 min, attempting to notify user...');
 				}
 			}
 			txt = "Starts in " + m + " Min";
@@ -297,6 +302,11 @@ function JSONSuccess(data) {
 		events[i]     = data["data"]["children"][i]["data"]["title"];
 		eventsURL[i]  = data["data"]["children"][i]["data"]["url"];
 		eventsGame[i] = data["data"]["children"][i]["data"]["subreddit"];
+		if (data["data"]["children"][i]["data"]["subreddit"] == 'GTAV_Cruises') {
+			eventsGameNice[i] = 'GTAV';
+		} else {
+			eventsGameNice[i] = 'Forza';
+		};
 	};
 
 	CruisesLog("Events Found: " + events.length);
@@ -735,7 +745,7 @@ function JSONSuccess(data) {
 				for (var i = 0; i < eventTitlesNew.length; i++) {
 					CruisesLog('New Event with title "' + eventTitlesNew[i] + '" found, sending user notification...' );
 					var thisUrl = eventTitlesCurrentUrl[eventTitlesCurrent.indexOf(eventTitlesNew[i])];
-					eventNotify(eventTitlesNew[i], 'new', thisUrl, 'A new event has been posted!\nClick here for more info.', options);
+					eventNotify(eventTitlesNew[i], 'new', eventsGameNice[i], thisUrl, 'A new event has been posted!\nClick here for more info.', options);
 				};
 			}
 		}
@@ -761,6 +771,10 @@ function JSONSuccess(data) {
 			theme:"minimal-dark"
 		});
 	}
+
+	// notification tests
+	// eventNotify('Test Event', '15', 'Forza', '#', 'Hello, this a test event!\nClick here for more info.', options);
+
 }
 
 // wait for window load before continuing
