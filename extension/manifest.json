@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "PCCruises Events Extension",
   "description": "Adds the PCCruises Events Widget to Chrome's toolbar and shows notifications for new events and events starting in 30 & 15 minutes.",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "browser_action": {
     "default_icon": "img/logo.png",
     "default_popup": "popup.html"

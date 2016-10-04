@@ -86,6 +86,7 @@ For other issues or expected improvements check the [issues section in Githhub](
 - **v1.0.5:** Fix rare bug that prevented new cruises from being detected. Disabled console.log unless in dev mode.
 - **v1.1.0:** Added support for /r/ForzaCruises, added notifications for New Events, refactored cache system (should fix issue where extension would become unresposive until reinstalled).
 - **v1.2.0:** Added per-game notification support: Notifications now show what game they are for, and the user can disable GTAV or Forza notifications depending on what game he's interested in.
+- **v1.2.1:** Minor fixes to notifications.
 
 
 ## License
