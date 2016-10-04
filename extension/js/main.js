@@ -745,7 +745,7 @@ function JSONSuccess(data) {
 				for (var i = 0; i < eventTitlesNew.length; i++) {
 					CruisesLog('New Event with title "' + eventTitlesNew[i] + '" found, sending user notification...' );
 					var thisUrl = eventTitlesCurrentUrl[eventTitlesCurrent.indexOf(eventTitlesNew[i])];
-					eventNotify(eventTitlesNew[i], 'new', eventsGameNice[i], thisUrl, 'A new event has been posted!\nClick here for more info.', options);
+					eventNotify(eventTitlesNew[i], 'new', eventsGameNice[i], thisUrl, 'A new '+eventsGameNice[n]+' event has been posted!\nClick here for more info.', options);
 				};
 			}
 		}

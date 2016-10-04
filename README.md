@@ -23,7 +23,7 @@ Chrome will keep you up to date with new versions automatically.
 
 - **All the original functionality of the userscript version:** Shows events in your time zone, with countdown timers, etc.
 - **Toolbar Icon:** The events widget is now accessible from Chrome's toolbar. The icon shows the number of found cruises.
-- **Notifications:** As long as Chrome is open, you'll get toast notifications in your desktop when an event is added or about to start. These notifications can be disabled on a per game or type basis and show wha game the event is for.
+- **Notifications:** As long as Chrome is open, you'll get toast notifications in your desktop when an event is added or about to start. These notifications can be disabled on a per game or type basis and show what game the event is for.
 - **Heavily Optimized:** Instead of using a hidden iframe, events are now fetched via JSON. This is faster because it downloads less irrelevant data and uses only one web request.
 - **Cache:** Events are cached for 5 minutes, which reduces requests to reddit's servers and improves performance even further, especially if you open the menu several times in a couple of minutes.
 
