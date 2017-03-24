@@ -88,6 +88,7 @@ For other issues or expected improvements check the [issues section in Githhub](
 - **v1.2.0:** Added per-game notification support: Notifications now show what game they are for, and the user can disable GTAV or Forza notifications depending on what game he's interested in.
 - **v1.2.1:** Minor fixes to notifications.
 - **v1.2.2:** Fixed "undefined event" in new event notifications.
+- **v1.2.3:** Fixed crash when an event has a time format of "HH.MM".
 
 
 ## License
