@@ -452,6 +452,7 @@ function JSONSuccess(data) {
 						CruisesLog("Converted Time " + eventParts[4] + " To: " + time);
 					}
 				}
+				time = time.replace(/\./g, ":");
 				time = time.split(":");
 				times[i] = eventParts[4];
 				var hour = time[0];
